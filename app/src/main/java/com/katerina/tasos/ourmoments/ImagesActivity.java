@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.katerina.tasos.ourmoments.Adapters.CustomAdapter;
+
 import java.util.ArrayList;
 
 /**
@@ -14,7 +16,7 @@ import java.util.ArrayList;
 public class ImagesActivity extends AppCompatActivity {
 
     private final String image_titles[] = {
-            "Img1",
+            /*"Img1",
             "Img2",
             "Img3",
             "Img4",
@@ -30,12 +32,12 @@ public class ImagesActivity extends AppCompatActivity {
     };
 
     private final Integer image_ids[] = {
-            R.drawable.img1,
+            /*R.drawable.img1,
             R.drawable.img2,
             R.drawable.img3,
             R.drawable.img4,
             R.drawable.img5,
-            /*R.drawable.img6,
+           /* R.drawable.img6,
             R.drawable.img7,
             R.drawable.img8,
             R.drawable.img9,
@@ -59,6 +61,8 @@ public class ImagesActivity extends AppCompatActivity {
         ArrayList<CreateList> createLists = prepareData();
         CustomAdapter adapter = new CustomAdapter(getApplicationContext(), createLists);
         recyclerView.setAdapter(adapter);
+
+
     }
 
     private ArrayList<CreateList> prepareData() {

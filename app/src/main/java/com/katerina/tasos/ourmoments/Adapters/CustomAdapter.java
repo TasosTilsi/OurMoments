@@ -1,4 +1,4 @@
-package com.katerina.tasos.ourmoments;
+package com.katerina.tasos.ourmoments.Adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -8,6 +8,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.katerina.tasos.ourmoments.CreateList;
+import com.katerina.tasos.ourmoments.R;
 
 import java.util.ArrayList;
 
