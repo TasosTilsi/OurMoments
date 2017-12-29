@@ -9,8 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.katerina.tasos.ourmoments.CreateList;
+import com.katerina.tasos.ourmoments.Objects.Images;
 import com.katerina.tasos.ourmoments.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -19,10 +20,10 @@ import java.util.ArrayList;
  */
 
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
-    private ArrayList<CreateList> galleryList;
+    private ArrayList<Images> galleryList;
     private Context context;
 
-    public CustomAdapter(Context context, ArrayList<CreateList> galleryList) {
+    public CustomAdapter(Context context, ArrayList<Images> galleryList) {
         this.galleryList = galleryList;
         this.context = context;
     }
@@ -36,10 +37,10 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     @Override
     public void onBindViewHolder(CustomAdapter.ViewHolder viewHolder, int i) {
 
-        viewHolder.title.setText(galleryList.get(i).getImage_title());
+        viewHolder.title.setText(galleryList.get(i).getName());
         viewHolder.img.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        viewHolder.img.setImageResource((galleryList.get(i).getImage_ID()));
-        //Picasso.with(context).load(galleryList.get(i).getImage_ID()).resize(240, 120).into(viewHolder.img);
+        //viewHolder.img.setImageResource((galleryList.get(i).getImage_ID()));
+        Picasso.with(context).load(galleryList.get(i).getCloudLink()).resize(240, 120).into(viewHolder.img);
         viewHolder.img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
