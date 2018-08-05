@@ -2,4 +2,8 @@
     <string name="app_name">Our Moments</string>
     <string name="press">Press my Heart</string>
     <string name="heart">Heart</string>
+
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

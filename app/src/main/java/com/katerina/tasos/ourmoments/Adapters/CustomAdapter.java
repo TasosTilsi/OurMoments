@@ -1,13 +1,14 @@
 package com.katerina.tasos.ourmoments.Adapters;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.katerina.tasos.ourmoments.Objects.Images;
 import com.katerina.tasos.ourmoments.R;
@@ -19,6 +20,59 @@ import java.util.ArrayList;
  * Created by tasos on 18/10/2017.
  */
 
+public class CustomAdapter extends ArrayAdapter<Images> {
+    private ArrayList<Images> objects;
+    private Context context;
+
+    public CustomAdapter(Context context, ArrayList<Images> objects) {
+        super(context, 0, objects);
+        this.context = context;
+    }
+
+    @NonNull
+    @Override
+    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+
+        final ViewHolder holder;
+
+        Images image = getItem(position);
+
+        if (convertView == null) {
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.adapter_item, parent, false);
+            holder = new ViewHolder();
+
+            holder.image = (ImageView) convertView.findViewById(R.id.img);
+            holder.image_textView = (TextView) convertView.findViewById(R.id.title);
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
+        }
+        // Lookup view for data population
+        // Populate the data into the template view using the data object
+
+        if (image != null) {
+            holder.image_textView.setText(image.getName());
+            if (image.getCloudLink().length() > 5) {
+                Picasso.with(getContext()).load(image.getCloudLink()).resize(240, 120).placeholder(R.drawable.heart).into(holder.image);
+            } else {
+                Picasso.with(getContext()).load(R.drawable.heart).into(holder.image);
+            }
+        }
+        return convertView;
+    }
+
+    @Override
+    public int getCount() {
+        return super.getCount();
+    }
+
+    static class ViewHolder {
+        ImageView image;
+        TextView image_textView;
+    }
+}
+
+/*
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
     private ArrayList<Images> galleryList;
     private Context context;
@@ -30,7 +84,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
     @Override
     public CustomAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.activity_adapter, viewGroup, false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.adapter_item, viewGroup, false);
         return new ViewHolder(view);
     }
 
@@ -38,13 +92,20 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     public void onBindViewHolder(CustomAdapter.ViewHolder viewHolder, int i) {
 
         viewHolder.title.setText(galleryList.get(i).getName());
-        viewHolder.img.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        //viewHolder.img.setImageResource((galleryList.get(i).getImage_ID()));
-        Picasso.with(context).load(galleryList.get(i).getCloudLink()).resize(240, 120).into(viewHolder.img);
+        final String t = galleryList.get(i).getName();
+        if (galleryList.get(i) != null) {
+
+            if (galleryList.get(i).getCloudLink().length() > 5) {
+                Picasso.with(context).load(galleryList.get(i).getCloudLink()).resize(240, 120).placeholder(R.drawable.heart).into(viewHolder.img);
+            } else {
+                Picasso.with(context).load(R.drawable.heart).into(viewHolder.img);
+            }
+        }
+
         viewHolder.img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Image", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, t, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -66,4 +127,4 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         }
     }
 
-}
+}*/

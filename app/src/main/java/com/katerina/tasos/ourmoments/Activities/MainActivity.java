@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.katerina.tasos.ourmoments.DatabaseHandler;
-import com.katerina.tasos.ourmoments.Objects.Images;
 import com.katerina.tasos.ourmoments.R;
 
 public class MainActivity extends AppCompatActivity {
@@ -20,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
         dbHandler = new DatabaseHandler(this);
         initializeDatabase();
+        dbHandler.close();
 
     }
 
@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void initializeDatabase() {
-        //prepei na kanw drop table
-        dbHandler.addImage(new Images("2016-12-10 15.16.56", "https://mega.nz/#!YmRwVYoA!CdGhuoPU9i7HyISiJC9BjA21Dmzck5GtjDwAvM65ZQU"));
+        this.deleteDatabase("imagesManager");
+
     }
 }
