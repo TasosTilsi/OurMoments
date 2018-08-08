@@ -31,6 +31,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String KEY_ID = "id";
     private static final String KEY_NAME = "name";
     private static final String KEY_LINK = "link";
+    private static final String KEY_THUMB = "thumb";
 
     public DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -40,7 +41,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_IMAGES + "("
                 + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAME + " TEXT,"
-                + KEY_LINK + " TEXT" + ")";
+                + KEY_LINK + " TEXT," + KEY_THUMB + " TEXT" + ")";
         db.execSQL(CREATE_CONTACTS_TABLE);
     }
 
@@ -55,6 +56,19 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     // Adding new image
     public void addImage(Images image) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_NAME, String.valueOf(image.getName())); // Image Name
+        values.put(KEY_LINK, image.getCloudLink()); // Image Phone Number
+        values.put(KEY_THUMB, image.getThumbLink());
+
+        // Inserting Row
+        db.insert(TABLE_IMAGES, null, values);
+        db.close(); // Closing database connection
+    }
+
+    public void addImageWithoutThumb(Images image) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -77,7 +91,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             cursor.moveToFirst();
 
         Images image = new Images(Integer.parseInt(cursor.getString(0)),
-                cursor.getString(1), cursor.getString(2));
+                cursor.getString(1), cursor.getString(2), cursor.getString(3));
         // return image
         return image;
     }
@@ -98,6 +112,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 image.setId(Integer.parseInt(cursor.getString(0)));
                 image.setName(cursor.getString(1));
                 image.setCloudLink(cursor.getString(2));
+                image.setThumbLink(cursor.getString(3));
                 // Adding contact to list
                 imagesList.add(image);
             } while (cursor.moveToNext());
@@ -108,7 +123,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     // Getting image Count
-    public int getContactsCount() {
+    public int getImagesCount() {
         String countQuery = "SELECT  * FROM " + TABLE_IMAGES;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
@@ -125,6 +140,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(KEY_NAME, image.getName());
         values.put(KEY_LINK, image.getCloudLink());
+        values.put(KEY_THUMB, image.getThumbLink());
 
         // updating row
         return db.update(TABLE_IMAGES, values, KEY_ID + " = ?",

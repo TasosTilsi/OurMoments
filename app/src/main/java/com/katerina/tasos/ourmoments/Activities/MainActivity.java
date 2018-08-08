@@ -30,6 +30,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void initializeDatabase() {
         this.deleteDatabase("imagesManager");
-
+        
     }
 }

@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.katerina.tasos.ourmoments.Objects.Images;
@@ -43,6 +44,7 @@ public class CustomAdapter extends ArrayAdapter<Images> {
 
             holder.image = (ImageView) convertView.findViewById(R.id.img);
             holder.image_textView = (TextView) convertView.findViewById(R.id.title);
+            holder.progressBar = (ProgressBar) convertView.findViewById(R.id.item_progress_bar);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -52,10 +54,22 @@ public class CustomAdapter extends ArrayAdapter<Images> {
 
         if (image != null) {
             holder.image_textView.setText(image.getName());
-            if (image.getCloudLink().length() > 5) {
-                Picasso.with(getContext()).load(image.getCloudLink()).resize(240, 120).placeholder(R.drawable.heart).into(holder.image);
+            if (image.getCloudLink() != null) {
+                Picasso.with(getContext()).load(image.getCloudLink())/*.resize(240, 120)*/.into(holder.image, new com.squareup.picasso.Callback() {
+                    @Override
+                    public void onSuccess() {
+                        holder.progressBar.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onError() {
+
+                    }
+                });
             } else {
-                Picasso.with(getContext()).load(R.drawable.heart).into(holder.image);
+                holder.progressBar.setVisibility(View.GONE);
+                holder.image.setImageResource(R.drawable.smallheart);
+                //Picasso.with(getContext()).load(R.drawable.heart).into(holder.image);
             }
         }
         return convertView;
@@ -69,6 +83,7 @@ public class CustomAdapter extends ArrayAdapter<Images> {
     static class ViewHolder {
         ImageView image;
         TextView image_textView;
+        ProgressBar progressBar;
     }
 }
 

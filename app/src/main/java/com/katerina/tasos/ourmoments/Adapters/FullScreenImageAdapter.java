@@ -19,10 +19,12 @@ import java.util.ArrayList;
 
 public class FullScreenImageAdapter extends PagerAdapter {
 
-    int pos;
+    private int pos;
+    private boolean flag = true;
     private Activity activity;
     private ArrayList<Images> images;
     private LayoutInflater inflater;
+    private ImageView imgDisplay;
 
     // constructor
     public FullScreenImageAdapter(Activity activity, ArrayList<Images> imagesArrayList, int pos) {
@@ -43,7 +45,6 @@ public class FullScreenImageAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        ImageView imgDisplay;
 
         inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View viewLayout = inflater.inflate(R.layout.layout_fullscreen_image, container, false);
@@ -51,7 +52,12 @@ public class FullScreenImageAdapter extends PagerAdapter {
         imgDisplay = (ImageView) viewLayout.findViewById(R.id.imgDisplay);
         imgDisplay.setOnTouchListener(new ImageMatrixTouchHandler(activity));
 
-        Picasso.with(activity).load(images.get(pos).getCloudLink()).placeholder(R.drawable.heart).into(imgDisplay);
+        if (pos != 0 && flag) {
+            position = pos;
+            flag = false;
+        }
+
+        Picasso.with(activity).load(images.get(position).getCloudLink()).placeholder(R.drawable.smallheart).into(imgDisplay);
 
         ((ViewPager) container).addView(viewLayout);
 
