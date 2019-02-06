@@ -7,10 +7,9 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.bogdwellers.pinchtozoom.ImageMatrixTouchHandler;
+import com.github.chrisbanes.photoview.PhotoView;
 import com.katerina.tasos.ourmoments.Objects.Images;
 import com.katerina.tasos.ourmoments.R;
 import com.squareup.picasso.Picasso;
@@ -24,7 +23,7 @@ public class FullScreenImageAdapter extends PagerAdapter {
     private Activity activity;
     private ArrayList<Images> images;
     private LayoutInflater inflater;
-    private ImageView imgDisplay;
+    private PhotoView imgDisplay;
 
     // constructor
     public FullScreenImageAdapter(Activity activity, ArrayList<Images> imagesArrayList, int pos) {
@@ -49,18 +48,17 @@ public class FullScreenImageAdapter extends PagerAdapter {
         inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View viewLayout = inflater.inflate(R.layout.layout_fullscreen_image, container, false);
 
-        imgDisplay = (ImageView) viewLayout.findViewById(R.id.imgDisplay);
-        imgDisplay.setOnTouchListener(new ImageMatrixTouchHandler(activity));
+        imgDisplay = viewLayout.findViewById(R.id.imgDisplay);
+        //imgDisplay.setOnTouchListener(new ImageMatrixTouchHandler(activity));
 
         if (pos != 0 && flag) {
             position = pos;
             flag = false;
         }
 
-        Picasso.with(activity).load(images.get(position).getCloudLink()).placeholder(R.drawable.smallheart).into(imgDisplay);
-
+        //Picasso.with(activity).load(images.get(position).getCloudLink()).placeholder(R.drawable.smallheart).into(imgDisplay);
+        Picasso.get().load(images.get(position).getCloudLink()).placeholder(R.drawable.smallheart).into(imgDisplay);
         ((ViewPager) container).addView(viewLayout);
-
         return viewLayout;
     }
 

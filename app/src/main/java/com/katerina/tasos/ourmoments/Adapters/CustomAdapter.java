@@ -55,7 +55,8 @@ public class CustomAdapter extends ArrayAdapter<Images> {
         if (image != null) {
             holder.image_textView.setText(image.getName());
             if (image.getCloudLink() != null) {
-                Picasso.with(getContext()).load(image.getCloudLink())/*.resize(240, 120)*/.into(holder.image, new com.squareup.picasso.Callback() {
+                //Picasso.with(getContext()).load(image.getCloudLink())/*.resize(240, 120)*/.into(holder.image, new com.squareup.picasso.Callback() {
+                Picasso.get().load(image.getCloudLink())/*.resize(240, 120)*/.into(holder.image);/*, new com.squareup.picasso.Callback() {
                     @Override
                     public void onSuccess() {
                         holder.progressBar.setVisibility(View.GONE);
@@ -65,7 +66,7 @@ public class CustomAdapter extends ArrayAdapter<Images> {
                     public void onError() {
 
                     }
-                });
+                });*/
             } else {
                 holder.progressBar.setVisibility(View.GONE);
                 holder.image.setImageResource(R.drawable.smallheart);
